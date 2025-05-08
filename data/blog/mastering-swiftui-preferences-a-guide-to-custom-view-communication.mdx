@@ -1,0 +1,109 @@
+---
+title: 'Mastering SwiftUI Preferences: A Guide to Custom View Communication'
+date: '2025-05-08'
+tags: ['swiftui', 'preferences', 'ios', 'view communication', 'state']
+summary: 'Learn how to use the powerful Preferences system in SwiftUI to pass values from child views to ancestors.'
+images: ['/static/images/banners/swift-code-loving-each-others.jpeg']
+authors: ['default']
+---
+
+## Introduction
+
+FYI : This post was generated using AI - just as a example.. The topic is interesting though!
+
+SwiftUI introduces a powerful mechanism for child-to-parent communication called **Preferences**.
+
+Unlike `@Binding` or `@Environment`, which are generally used for top-down data flow, **Preferences** allow child views to **send data upward** to their ancestors—ideal when you want a child view to inform a parent about layout sizes, scroll positions, or custom metadata.
+
+In this post, you’ll learn:
+
+- What SwiftUI preferences are
+- How to define and use a custom preference key
+- Common use cases for preferences
+
+## What are Preferences?
+
+Preferences let child views write values that parent views can read using SwiftUI's view hierarchy traversal system. They’re ideal when:
+
+- A child wants to tell a parent how much space it needs
+- You need to align multiple views based on one child’s geometry
+- You want to centralize metadata, like "currently focused view" or layout bounds
+
+This is done using `PreferenceKey` and `.preference(key:value:)`.
+
+## Defining a Custom Preference Key
+
+Here’s how to define and use a custom preference key:
+
+```swift
+struct SizePreferenceKey: PreferenceKey {
+    static var defaultValue: CGSize = .zero
+
+    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
+        value = nextValue()
+    }
+}
+```
+
+This key will be used to pass `CGSize` values up the view tree.
+
+## Writing Preferences
+
+Inside a child view, you can use `.background` with a `GeometryReader` to write a value:
+
+```swift
+Text("Hello, SwiftUI!")
+    .background(
+        GeometryReader { geometry in
+            Color.clear.preference(key: SizePreferenceKey.self, value: geometry.size)
+        }
+    )
+```
+
+This writes the text’s size to the preference system.
+
+## Reading Preferences
+
+The ancestor view can then read this value using `.onPreferenceChange`:
+
+```swift
+struct ParentView: View {
+    @State private var childSize: CGSize = .zero
+
+    var body: some View {
+        VStack {
+            Text("Child size: \(Int(childSize.width)) x \(Int(childSize.height))")
+            Text("Hello, SwiftUI!")
+                .background(
+                    GeometryReader { geometry in
+                        Color.clear.preference(key: SizePreferenceKey.self, value: geometry.size)
+                    }
+                )
+        }
+        .onPreferenceChange(SizePreferenceKey.self) { size in
+            self.childSize = size
+        }
+    }
+}
+```
+
+This captures the size of the "Hello, SwiftUI!" text and displays it above.
+
+## Real-World Use Cases
+
+- **Custom alignment**: Align sibling views based on child layout.
+- **Scroll position tracking**: Use preferences to capture the current scroll offset.
+- **Focus metadata**: Track which field is currently active or visible.
+
+## Tips and Best Practices
+
+- Preferences are one-way: child → parent.
+- Avoid excessive writes in performance-critical views.
+- Combine with `AnchorPreference` and `GeometryProxy` for advanced layout tricks.
+- Use `.transformPreference(_:transform:)` if you want to mutate values further up.
+
+## Conclusion
+
+SwiftUI Preferences open up a new dimension of view communication by enabling bottom-up data flow. Whether you're adjusting layout dynamically or synchronizing child metadata, they give you elegant, declarative control without breaking SwiftUI’s design principles.
+
+Happy building 🛠️
