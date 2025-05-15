@@ -4,6 +4,8 @@ import path from 'path'
 import Parser from 'rss-parser'
 import { SITE_METADATA } from '~/data/site-metadata'
 import type { GoodreadsBook } from '~/types/data'
+import countries from '~/data/map/all-countries.json'
+import { visitedCountries } from '~/json/visited-countries'
 
 let parser = new Parser<{ [key: string]: any }, GoodreadsBook>({
   customFields: {
@@ -55,8 +57,16 @@ export async function fetchGoodreadsBooks() {
   }
 }
 
+function seedVisitedCountries() {
+  countries.features = countries.features.filter((country) => {
+    return visitedCountries.find((c) => c.name === country.properties.name)
+  })
+  writeFileSync(`./json/countries.geojson`, JSON.stringify(countries))
+}
+
 export async function seed() {
   await fetchGoodreadsBooks()
+  seedVisitedCountries()
 }
 
 seed()

@@ -25,6 +25,14 @@ export type GoodreadsBook = {
   content: string
 }
 
+export type VisitedCountry = {
+  id: string
+  name: string
+  year_visited?: string
+  visited_places: string[]
+  comments: string[]
+}
+
 export type MDXDocument = Document & { body: MDX }
 export type MDXDocumentDate = MDXDocument & {
   date: string

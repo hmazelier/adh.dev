@@ -6,6 +6,7 @@ import { Greeting } from './greeting'
 import { Intro } from './intro'
 import { LatestPosts } from './latest-posts'
 import SplineKeyboard from '../ui/spline-keyboard'
+import VisitedMap from '../map/visited-map'
 
 export function Home({ posts }: { posts: CoreContent<Blog>[] }) {
   return (
@@ -51,6 +52,7 @@ export function Home({ posts }: { posts: CoreContent<Blog>[] }) {
           </div>
         </div>
       </div>
+      <VisitedMap />
       <LatestPosts posts={posts} />
     </Container>
   )
