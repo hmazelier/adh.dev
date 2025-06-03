@@ -19,7 +19,6 @@ export const SITE_METADATA = {
   stickyNav: true,
   goodreadsBookshelfUrl: 'https://www.goodreads.com/review/list/189949899?shelf=read',
   goodreadsFeedUrl: 'https://www.goodreads.com/review/list_rss/189949899',
-  imdbRatingsList: 'https://www.imdb.com/user/ur154483197/ratings/?view=grid',
   analytics: {
     umamiAnalytics: {
       websiteId: process.env.NEXT_UMAMI_ID,
