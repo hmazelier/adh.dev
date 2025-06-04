@@ -5,6 +5,7 @@ import { Twemoji } from '~/components/ui/twemoji'
 import { CodeTitle } from './code-title'
 import { Pre } from './pre'
 import { TableWrapper } from './table-wrapper'
+import MadeWithAI from '~/components/ui/made-with-ai'
 
 export const MDX_COMPONENTS: MDXComponents = {
   Image: ({ alt, ...rest }: ImageProps) => {
@@ -19,4 +20,5 @@ export const MDX_COMPONENTS: MDXComponents = {
   a: Link,
   pre: Pre,
   table: TableWrapper,
+  MadeWithAI,
 }
