@@ -6,6 +6,7 @@ import { CodeTitle } from './code-title'
 import { Pre } from './pre'
 import { TableWrapper } from './table-wrapper'
 import MadeWithAI from '~/components/ui/made-with-ai'
+import VisitedCountries from '~/components/countries/visited-countries'
 
 export const MDX_COMPONENTS: MDXComponents = {
   Image: ({ alt, ...rest }: ImageProps) => {
@@ -21,4 +22,5 @@ export const MDX_COMPONENTS: MDXComponents = {
   pre: Pre,
   table: TableWrapper,
   MadeWithAI,
+  VisitedCountries,
 }
