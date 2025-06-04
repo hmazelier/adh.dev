@@ -118,6 +118,11 @@ module.exports = () => {
         ],
       })
 
+      config.module.rules.push({
+        test: /\.geojson$/,
+        type: 'json',
+      })
+
       return config
     },
   })
