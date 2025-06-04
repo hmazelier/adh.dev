@@ -4,8 +4,8 @@ import path from 'path'
 import Parser from 'rss-parser'
 import { SITE_METADATA } from '~/data/site-metadata'
 import type { GoodreadsBook } from '~/types/data'
-import countries from '~/data/map/all-countries.json'
-import { visitedCountries } from '~/json/visited-countries'
+import countries from '~/raw-data/countries/all-countries.json'
+import { visitedCountries } from '~/raw-data/countries/visited-countries'
 
 let parser = new Parser<{ [key: string]: any }, GoodreadsBook>({
   customFields: {
@@ -58,10 +58,15 @@ export async function fetchGoodreadsBooks() {
 }
 
 function seedVisitedCountries() {
-  countries.features = countries.features.filter((country) => {
-    return visitedCountries.find((c) => c.name === country.properties.name)
-  })
-  writeFileSync(`./json/countries.geojson`, JSON.stringify(countries))
+  const filteredGeoJson = {
+    type: 'FeatureCollection',
+    name: 'ne_10m_admin_0_countries',
+    crs: { type: 'name', properties: { name: 'urn:ogc:def:crs:OGC:1.3:CRS84' } },
+    features: (countries as any).features.filter((country) => {
+      return visitedCountries.find((c) => c.name === country.properties.name)
+    }),
+  }
+  writeFileSync(`./json/countries.geojson`, JSON.stringify(filteredGeoJson))
 }
 
 export async function seed() {
