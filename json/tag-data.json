@@ -1,4 +1,9 @@
 {
+  "language": 1,
+  "learning": 1,
+  "neuroplasticity": 1,
+  "productivity": 2,
+  "dopamine": 2,
   "travel": 1,
   "nomadism": 1,
   "remote-work": 1,
@@ -7,7 +12,5 @@
   "introduction": 1,
   "about": 1,
   "ios": 1,
-  "productivity": 1,
-  "dopamine": 1,
   "experiments": 1
 }
